@@ -30,19 +30,53 @@
 
 var createScene = function () {
     // scene 0
-	var scene = new BABYLON.Scene(engine);
-    scene.clearColor = BABYLON.Color3.Black();
+    var scene = new BABYLON.Scene(engine);  
+            // var camera = new BABYLON.ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2.5, 15, new BABYLON.Vector3(0, 0, 0));
+            
+            var camera = new BABYLON.ArcRotateCamera("Camera", -Math.PI / 2,7 * Math.PI / 16, 10, BABYLON.Vector3.Zero(), scene);
+
+            camera.attachControl(canvas, true);
+            // const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(1, 1, 0));
+
+            var spot = new BABYLON.SpotLight("spot", new BABYLON.Vector3(0, 30, 10), new BABYLON.Vector3(0, -1, 0), 17, 1, scene);
+            spot.diffuse = new BABYLON.Color3(1, 1, 1);
+            spot.specular = new BABYLON.Color3(0, 0, 0);
+            spot.intensity = 0.3;
+        
+            var skybox = BABYLON.Mesh.CreateBox('skybox', 1000.0, scene);
+            var skyboxMaterial = new BABYLON.StandardMaterial('skybox', scene);
+            skyboxMaterial.backFaceCulling = false;
+            skybox.material = skyboxMaterial;
+            
+            skybox.infiniteDistance = true;
+            skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture('https://raw.githubusercontent.com/sunnyjovita/Horizon_Escape/master/skybox/assets/sky', scene);    
+            
+            skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+            
+
+
+
+
+  
+
+
+   // scene 1
+	var scene1 = new BABYLON.Scene(engine);
+    scene1.clearColor = BABYLON.Color3.Black();
+    scene1.autoClear = false;
 
     //Create a light
-    var light = new BABYLON.PointLight("light", new BABYLON.Vector3(-60, 60, 80), scene);
+    var light = new BABYLON.PointLight("light", new BABYLON.Vector3(-60, 60, 80), scene1);
 	
     // create camera
-    var camera = new BABYLON.ArcRotateCamera("Camera", Math.PI / 2, 1.0, 210, BABYLON.Vector3.Zero(), scene);
+    var camera = new BABYLON.ArcRotateCamera("Camera", -Math.PI / 2,7 * Math.PI / 16, 10, BABYLON.Vector3.Zero(), scene1);
+
+    // var camera = new BABYLON.ArcRotateCamera("Camera", Math.PI / 2, 1.0, 210, BABYLON.Vector3.Zero(), scene);
     
     camera.attachControl(canvas, true);
 
 	//Create a custom mesh  
-	var customMesh = new BABYLON.Mesh("custom", scene);
+	var customMesh = new BABYLON.Mesh("custom", scene1);
 	
 	//Set arrays for positions and indices
 	var positions = [];
@@ -84,7 +118,7 @@ var createScene = function () {
 	//Apply vertexData to custom mesh
 	vertexData.applyToMesh(customMesh, true);
 	
-    var mat = new BABYLON.StandardMaterial("mat", scene);
+    var mat = new BABYLON.StandardMaterial("mat", scene1);
 	mat.emissiveColor = new BABYLON.Color3(1, 1, 1);
     mat.disableLighting = true;
     mat.pointsCloud = true;
@@ -111,29 +145,19 @@ var createScene = function () {
             
        }
         customMesh.updateVerticesData(BABYLON.VertexBuffer.PositionKind, positions);
-    } 
+    }
+    
+    
+    //runRenderLoop inside a setTimeout is neccesary in the Playground
+    //to stop the PG's runRenderLoop.
+    setTimeout(function() {
+        engine.stopRenderLoop();
 
-
-    // scene 1
-    var scene1 = new BABYLON.Scene(engine);
-	var camera1 = new BABYLON.ArcRotateCamera("Camera1", -Math.PI / 2, Math.PI / 2, 5, BABYLON.Vector3.Zero(), scene1);
-	camera1.attachControl(canvas, true);
-
-    // var sun = BABYLON.MeshBuilder.CreateSphere("sun",{}, scene1);
-
-    var sun = BABYLON.Mesh.CreateSphere("sun", 16, 1, scene1);
-	sun.position = new BABYLON.Vector3(0, 0, 0);
-    var material = new BABYLON.StandardMaterial("sunmaterial", scene1);
-    sun.material = material;
-    sun.material.emissiveColor = new BABYLON.Color3(1, 1, 0);
-
-    var light1 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(1, 0.5, 0), scene1);
-    // var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
-
-    light1.intensity = 0.8;
-
-    // var sphere1 = BABYLON.MeshBuilder.CreateSphere("sphere1", {diameter:1}, scene1);
-    // sphere1.position.y = 1;
+        engine.runRenderLoop(function () {
+            scene.render();
+            scene1.render();
+        });
+    }, 500);
 
     return scene;
 }
