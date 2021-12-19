@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+        <title>Babylon.js sample code</title>
+        <script src="https://preview.babylonjs.com/earcut.min.js"></script>
+        <script src="https://preview.babylonjs.com/babylon.js"></script>
+        <script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.js"></script>
+        <script src="https://preview.babylonjs.com/gui/babylon.gui.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.js"
+    integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>
+
+        <style>
+            html, body {
+                overflow: hidden;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            #renderCanvas {
+                width: 100%;
+                height: 100%;
+                touch-action: none;
+            }
+        </style>
+    </head>
+<body>
+    <canvas id="renderCanvas"></canvas>
+    <script>
+        var canvas = document.getElementById("renderCanvas");
+
+        var engine = null;
+        var scene = null;
+        var sceneToRender = null;
+        var createDefaultEngine = function() { return new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true,  disableWebGL2Support: false}); };
+        
+        $.ajaxSetup({cache:false});
+        var typeURLLeftover     = "https://bjs-playground.s3.amazonaws.com/meshwriter.8.30.9am.js";
+        
+        var createScene = function() {
+	var scene   = new BABYLON.Scene(engine);
+    var scale   = 0.1, MeshWriter, text1, text2, text3, text4;
+	var camera  = new BABYLON.ArcRotateCamera("Camera", -Math.PI/2, Math.PI/4, 25, BABYLON.Vector3.Zero(), scene);
+	camera.attachControl(canvas, true);
+
+    var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 10, 0), scene);
+    light.intensity = 0.5;
+
+    // These lines load the module, if not already loaded, and then call write
+    if ( typeof TYPE === "undefined" ) {
+        jQuery.getScript(typeURLLeftover).then(write)
+    } else {
+        write()
+    }
+	return scene;
+        
+    function write () {
+        Writer = BABYLON.MeshWriter(scene, {scale:scale});
+        // text1  = new Writer(
+        //     "HORIZON ESCAPE",
+        //     {
+        //         "anchor": "center",
+        //         "letter-height": 5,
+        //         "font-family":"StargazerRegular",
+        //         "color": "#1C3870",
+        //         "position": {
+        //             "x": 0,
+        //             "y": 0,
+        //             "z": 0
+        //         }
+        //     }
+        // );
+        text2  = new Writer(
+            "horizon escape",
+            {
+                "anchor": "center",
+                "letter-height": 5,
+                "font-family":"StargazerStencil",
+                // "color": "03FBD7",
+                "position": {
+                    "x": 0,
+                    "y": 5,
+                    "z": 0
+                }
+            }
+        );
+    }
+
+};
+                window.initFunction = async function() {
+                    
+                    
+                    var asyncEngineCreation = async function() {
+                        try {
+                        return createDefaultEngine();
+                        } catch(e) {
+                        console.log("the available createEngine function failed. Creating the default engine instead");
+                        return createDefaultEngine();
+                        }
+                    }
+
+                    window.engine = await asyncEngineCreation();
+        if (!engine) throw 'engine should not be null.';
+        window.scene = createScene();};
+        initFunction().then(() => {sceneToRender = scene        
+            engine.runRenderLoop(function () {
+                if (sceneToRender && sceneToRender.activeCamera) {
+                    sceneToRender.render();
+                }
+            });
+        });
+
+        // Resize
+        window.addEventListener("resize", function () {
+            engine.resize();
+        });
+    </script>
+</body>
+</html>
