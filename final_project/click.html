@@ -1,0 +1,195 @@
+<html>
+    <head>
+    <title>Horizon Escapes</title>
+
+    <script src="https://cdn.babylonjs.com/babylon.max.js"></script>
+    <script src="https://cdn.babylonjs.com/babylon.js"></script>
+    <!-- <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script> -->
+    <script src="https://cdn.babylonjs.com/gui/babylon.gui.js"></script>
+    <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
+
+    <script src="https://preview.babylonjs.com/earcut.min.js"></script>
+        <!-- <script src="https://preview.babylonjs.com/babylon.js"></script> -->
+        <script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.js"></script>
+        <!-- <script src="https://preview.babylonjs.com/gui/babylon.gui.min.js"></script> -->
+        <script src="https://code.jquery.com/jquery-3.4.1.js"
+    integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>
+    <style>
+        html, body {
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        }
+        #render {
+        width: 100%;
+        height: 100%;
+        touch-action: none;
+        }
+    </style>
+    </head>
+    <body>
+        <canvas id="render" touch-action="none">
+        <script>
+        var canvas = document.getElementById("render");
+        var engine = new BABYLON.Engine(canvas, true);
+
+var createScene = function () {
+
+    // this creates a basic babylon scene object
+	var scene = new BABYLON.Scene(engine);
+    scene.clearColor = BABYLON.Color3.Black();
+
+
+
+
+    // var camera = new BABYLON.ArcRotateCamera("camera1",  0, 0, 0, new BABYLON.Vector3(0, 0, -0), scene);
+    var camera = new BABYLON.ArcRotateCamera("Camera", -Math.PI / 2, Math.PI / 2, 5, BABYLON.Vector3.Zero(), scene1);
+  camera.setPosition(new BABYLON.Vector3(0, 20, -100));
+  camera.attachControl(canvas, true);
+
+    // Create a light
+    var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+
+    // Default intensity is 1. Let's dim the light a small amount
+    light.intensity = 0.7;	
+
+    // create camera
+    // var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 5, -10), scene);
+    
+    // // This targets the camera to scene origin
+    // camera.setTarget(BABYLON.Vector3.Zero());
+
+    // // this attaches the camera to the canvas
+    // camera.attachControl(canvas, true)
+
+  var ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 56, height: 56}, scene);
+
+        // scene 1
+        var scene1 = new BABYLON.Scene(engine);
+	var camera1 = new BABYLON.ArcRotateCamera("Camera1", -Math.PI / 2, Math.PI / 2, 5, BABYLON.Vector3.Zero(), scene1);
+	camera1.attachControl(canvas, true);
+
+    var light1 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(1, 0.5, 0), scene1);
+    light1.intensity = 0.8;
+
+    var sphere1 = BABYLON.MeshBuilder.CreateSphere("sphere1", {diameter:1}, scene1);
+    // sphere1.position.y = 1;
+    // sphere1.material = new BABYLON.StandardMaterial("mat1", scene2);
+    // sphere1.material.wireframe = true;
+    // showNormals(sphere1, 0.25, new BABYLON.Color3(1, 0, 0), scene2);
+
+
+    // gui both scenes
+    var clicks = 0;
+    var showScene = 0;
+    var advancedTexture;
+
+    // // gui
+    // var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
+
+    // make a panel for the menu
+    
+
+    var createGUI = function(scene, showScene) {             
+        switch (showScene) {
+            case 0:            
+                advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI", true, scene);
+                var UiPanel = new BABYLON.GUI.StackPanel();
+                UiPanel.width = "200px";
+                UiPanel.fontSize = "20px";
+                // UiPanel.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
+                // UiPanel.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_CENTER;
+                advancedTexture.addControl(UiPanel);
+            break
+            case 1:            
+                advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI", true, scene1);
+                var UiPanel = new BABYLON.GUI.StackPanel();
+                UiPanel.width = "200px";
+                UiPanel.fontSize = "20px";
+                // UiPanel.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
+                // UiPanel.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_CENTER;
+                advancedTexture.addControl(UiPanel);
+            break
+        }
+
+        // button 1 = play
+    // var button1 = BABYLON.GUI.Button.CreateSimpleButton("but1", "Play" + ((clicks + 1) % 2));
+    // button1.paddingTop = "10px";
+    // button1.width = "100px";
+    // button1.height = "50px";
+    // button1.color = "aquamarine";
+ 
+   
+
+        var button = BABYLON.GUI.Button.CreateSimpleButton("but", "Play");
+        button.paddingTop = "10px";
+        button.width = "200px";
+        button.height = "50px";
+        button.color = "aquamarine";
+        // button.background = "green";
+        // button.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP
+        // advancedTexture.addControl(button);
+         UiPanel.addControl(button);
+    
+        button.onPointerUpObservable.add(function () {       
+            clicks++;                   
+        });
+
+        // // button 2 = credits
+    var button2 = BABYLON.GUI.Button.CreateSimpleButton("but2", "Credits");
+    button2.paddingTop = "10px";
+        button2.width = "200px";
+        button2.height = "50px";
+        button2.color = "aquamarine";
+        // advancedTexture.addControl(button2);
+
+    //     // button1.background = "green";
+    
+        UiPanel.addControl(button2);
+    }
+
+    
+
+    createGUI(scene, showScene);
+    
+
+    setTimeout(function() {
+        engine.stopRenderLoop();
+
+        engine.runRenderLoop(function () {
+            if(showScene != (clicks % 2)){
+                showScene = clicks % 2;          
+                switch (showScene) {
+                    case 0:                    
+                        advancedTexture.dispose();
+                        createGUI(scene, showScene);
+                        scene.render();
+                    break
+                    case 1:
+                        advancedTexture.dispose();
+                        // createGUI(scene1, showScene);
+                        scene1.render();
+                    break
+                }
+            }
+        });
+    }, 500); 
+
+
+    return scene;
+
+}
+
+        var scene = createScene();
+        engine.runRenderLoop(function() {
+            scene.render();
+        });
+        window.addEventListener("resize", function() {
+            engine.resize();
+        });
+        </script>
+    </body>
+  </html>
