@@ -53,7 +53,7 @@
             sphere.position.y = 1;
 
             // Our built-in 'ground' shape.
-            var ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 6, height: 10}, scene);
+            var ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 6, height: 100}, scene);
             
             var a = 0; // Starting point
             scene.registerBeforeRender(function () {
@@ -88,15 +88,49 @@
                 }
             }));
 
+            scene.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnKeyDownTrigger, (evt) => {
+                if (evt.sourceEvent.key == "w") {
+                    sphere.__W_Pressed = true;
+                }
+            }));
+
+            scene.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnKeyUpTrigger, (evt) => {
+                if (evt.sourceEvent.key == "w") {
+                    sphere.__W_Pressed = false;
+                }
+            }));
+
+            scene.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnKeyDownTrigger, (evt) => {
+                if (evt.sourceEvent.key == "s") {
+                    sphere.__S_Pressed = true;
+                }
+            }));
+
+            scene.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnKeyUpTrigger, (evt) => {
+                if (evt.sourceEvent.key == "s") {
+                    sphere.__S_Pressed = false;
+                }
+            }));
+
             scene.registerBeforeRender(function(){
                 if(!scene.isReady()) return;
 
                 if(sphere){
+                    // Left
                     if(sphere.__A_Pressed){
                         sphere.translate(BABYLON.Axis.X, -0.1, BABYLON.Space.LOCAL);
                     }
+                    // Right
                     else if(sphere.__D_Pressed){
                         sphere.translate(BABYLON.Axis.X, 0.1, BABYLON.Space.LOCAL);
+                    }
+                    // Up
+                    else if(sphere.__W_Pressed){
+                        sphere.translate(BABYLON.Axis.Y, 0.1, BABYLON.Space.LOCAL);
+                    }
+                    // Down
+                    else if(sphere.__S_Pressed){
+                        sphere.translate(BABYLON.Axis.Y, -0.1, BABYLON.Space.LOCAL);
                     }
                 }
             });
