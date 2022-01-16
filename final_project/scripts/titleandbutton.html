@@ -6,13 +6,9 @@
     <script src="https://preview.babylonjs.com/babylon.js"></script>
     <script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.js"></script>
     <script src="https://preview.babylonjs.com/gui/babylon.gui.min.js"></script>
-    <!-- <script src="https://code.jquery.com/jquery-3.4.1.js"></script> -->
 
     <script src="https://cdn.babylonjs.com/babylon.max.js"></script>
-    <!-- <script src="https://cdn.babylonjs.com/babylon.js"></script> -->
-    <!-- <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script> -->
     <script src="https://cdn.babylonjs.com/gui/babylon.gui.js"></script>
-    <!-- <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script> -->
     <script src="https://code.jquery.com/jquery-3.4.1.js"
     integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
     crossorigin="anonymous"></script>
@@ -48,11 +44,9 @@ var createScene = function () {
 
     var scale   = 0.4;
 	var camera  = new BABYLON.ArcRotateCamera("Camera", -Math.PI/2, Math.PI/4.4, 25, BABYLON.Vector3.Zero(), scene);
-	//   camera.setPosition(new BABYLON.Vector3(0, 0, 0));
 
     camera.attachControl(canvas, true);
-    	// var camera = new BABYLON.ArcRotateCamera("Camera1", -Math.PI / 2, Math.PI / 2, 5, BABYLON.Vector3.Zero(), scene);
-	// camera.attachControl(canvas, true);
+
 
     // These lines load the module, if not already loaded, and then call write
     if ( typeof TYPE === "undefined" ) {
@@ -63,20 +57,6 @@ var createScene = function () {
 
       function write () {
         Writer = BABYLON.MeshWriter(scene, {scale:scale});
-        // text1  = new Writer(
-        //     "HORIZON ESCAPE",
-        //     {
-        //         "anchor": "center",
-        //         "letter-height": 5,
-        //         "font-family":"StargazerRegular",
-        //         "color": "#1C3870",
-        //         "position": {
-        //             "x": 0,
-        //             "y": 0,
-        //             "z": 0
-        //         }
-        //     }
-        // );
         text1  = new Writer(
             "horizon escape",
             {
@@ -93,10 +73,6 @@ var createScene = function () {
         );
     }
 
-    // var camera = new BABYLON.ArcRotateCamera("camera1",  0, 0, 0, new BABYLON.Vector3(0, 0, -0), scene);
-    // var camera = new BABYLON.ArcRotateCamera("Camera", -Math.PI / 2, Math.PI / 2, 5, BABYLON.Vector3.Zero(), scene1);
-//   camera.setPosition(new BABYLON.Vector3(0, 20, -100));
-//   camera.attachControl(canvas, true);
 
     // Create a light
     var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
@@ -104,14 +80,6 @@ var createScene = function () {
     // Default intensity is 1. Let's dim the light a small amount
     light.intensity = 0.3;	
 
-    // create camera
-    // var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 5, -10), scene);
-    
-    // // This targets the camera to scene origin
-    // camera.setTarget(BABYLON.Vector3.Zero());
-
-    // // this attaches the camera to the canvas
-    // camera.attachControl(canvas, true)
 
     var ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 0, height: 0}, scene);
     // // ground.visibility = false;
@@ -128,11 +96,7 @@ var createScene = function () {
     light1.intensity = 0.8;
 
     var sphere1 = BABYLON.MeshBuilder.CreateSphere("sphere1", {diameter:1}, scene1);
-    // sphere1.position.y = 1;
-    // sphere1.material = new BABYLON.StandardMaterial("mat1", scene2);
-    // sphere1.material.wireframe = true;
-    // showNormals(sphere1, 0.25, new BABYLON.Color3(1, 0, 0), scene2);
-    sphere1.visibility = true;
+    // sphere1.visibility = true;
 
     // gui both scenes
     var clicks = 0;

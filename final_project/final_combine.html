@@ -1,0 +1,320 @@
+<html>
+    <head>
+    <title>CG - Babylon</title>
+    <script src="https://preview.babylonjs.com/earcut.min.js"></script>
+    <script src="https://preview.babylonjs.com/babylon.js"></script>
+    <script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.js"></script>
+    <script src="https://preview.babylonjs.com/gui/babylon.gui.min.js"></script>
+
+    <script src="https://cdn.babylonjs.com/babylon.max.js"></script>
+    <!-- <script src="https://cdn.babylonjs.com/babylon.js"></script> -->
+    <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+    <script src="https://cdn.babylonjs.com/gui/babylon.gui.js"></script>
+    <!-- <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script> -->
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+    integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>
+    
+    <style>
+        html, body {
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        }
+        #render {
+        width: 100%;
+        height: 100%;
+        touch-action: none;
+        }
+    </style>
+    </head>
+    <body>
+        <canvas id="render" touch-action="none">
+        <script>
+        var canvas = document.getElementById("render");
+        var engine = new BABYLON.Engine(canvas, true);
+        $.ajaxSetup({cache:false});
+        var typeURLLeftover     = "https://bjs-playground.s3.amazonaws.com/meshwriter.8.30.9am.js";
+ 
+var createScene = function () {
+    // scene 0
+    var scene = new BABYLON.Scene(engine);  
+            // var camera = new BABYLON.ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2.5, 15, new BABYLON.Vector3(0, 0, 0));
+            
+            var camera = new BABYLON.ArcRotateCamera("Camera", -Math.PI / 2,7 * Math.PI / 16, 10, BABYLON.Vector3.Zero(), scene);
+
+            camera.attachControl(canvas, true);
+            // const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(1, 1, 0));
+
+            var spot = new BABYLON.SpotLight("spot", new BABYLON.Vector3(0, 30, 10), new BABYLON.Vector3(0, -1, 0), 17, 1, scene);
+            spot.diffuse = new BABYLON.Color3(1, 1, 1);
+            spot.specular = new BABYLON.Color3(0, 0, 0);
+            spot.intensity = 0.3;
+        
+            var skybox = BABYLON.Mesh.CreateBox('skybox', 1000.0, scene);
+            var skyboxMaterial = new BABYLON.StandardMaterial('skybox', scene);
+            skyboxMaterial.backFaceCulling = false;
+            skybox.material = skyboxMaterial;
+            
+            skybox.infiniteDistance = true;
+            skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture('https://raw.githubusercontent.com/sunnyjovita/Horizon_Escape/master/skybox/assets/sky', scene);    
+            
+            skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+
+   // scene 1
+	var scene1 = new BABYLON.Scene(engine);
+    scene1.clearColor = BABYLON.Color3.Black();
+    scene1.autoClear = false;
+
+    //Create a light
+    var light = new BABYLON.PointLight("light", new BABYLON.Vector3(-60, 60, 80), scene1);
+	
+    // create camera
+    var camera = new BABYLON.ArcRotateCamera("Camera", -Math.PI / 2,7 * Math.PI / 16, 10, BABYLON.Vector3.Zero(), scene1);
+
+    // var camera = new BABYLON.ArcRotateCamera("Camera", Math.PI / 2, 1.0, 210, BABYLON.Vector3.Zero(), scene);
+    
+    camera.attachControl(canvas, true);
+
+	//Create a custom mesh  
+	var customMesh = new BABYLON.Mesh("custom", scene1);
+	
+	//Set arrays for positions and indices
+	var positions = [];
+    var colors = [];
+
+    var pointsCount = 10000;
+
+    var positions = new Array(3 * pointsCount);
+    positions.fill(0);
+
+    var velocity = [];
+
+    var theta = 0;
+    var psi = 0;
+    var x = 0;
+    var y = 0;
+    var z = 0;
+    for(var p = 0; p<pointsCount; p++) {
+
+        theta = 2 * Math.random() * Math.PI;
+        psi = 2 * Math.random() * Math.PI;
+        
+        velocity[3 * p] = Math.sin(theta) * Math.cos(psi)* 10; // * Math.random();
+        velocity[3 * p + 1] = Math.sin(theta) * Math.sin(psi)* 10; // * Math.random();
+        velocity[3 * p + 2] = Math.cos(theta) * 10; // * Math.random(); 
+    }
+
+    var colors = new Array(4 * pointsCount);
+    colors = colors.fill(0).map((x) => {
+        return 1 - (Math.random()/4);
+    })
+
+	var vertexData = new BABYLON.VertexData();
+
+	//Assign positions
+	vertexData.positions = positions;
+    vertexData.colors = colors;
+
+	//Apply vertexData to custom mesh
+	vertexData.applyToMesh(customMesh, true);
+	
+    var mat = new BABYLON.StandardMaterial("mat", scene1);
+	mat.emissiveColor = new BABYLON.Color3(1, 1, 1);
+    mat.disableLighting = true;
+    mat.pointsCloud = true;
+    mat.pointSize = 1;
+	
+	customMesh.material = mat;
+
+    var dir = true;
+    document.onkeydown = ()=>{
+        dir = !dir
+    }
+
+    var posLen = positions.length;
+
+
+    var IntervalhidgesID2 = setInterval(myMethod2, 100);
+    function myMethod2() {                          
+        for(var p = 0; p < posLen; p++) {
+            if(dir){
+                positions[p] += velocity[p];
+            }else{
+                positions[p] -= velocity[p];
+            }
+            
+       }
+        customMesh.updateVerticesData(BABYLON.VertexBuffer.PositionKind, positions);
+    }
+
+    // scene 2 (title)
+    var scene2 = new BABYLON.Scene(engine);
+    var scale2   = 0.4;
+
+	var camera2  = new BABYLON.ArcRotateCamera("Camera", -Math.PI/2, Math.PI/4.4, 25, BABYLON.Vector3.Zero(), scene2);
+    camera2.attachControl(canvas, true);
+
+    if ( typeof TYPE === "undefined" ) {
+        jQuery.getScript(typeURLLeftover).then(write)
+    } else {
+        write()
+    }
+
+    function write () {
+        Writer = BABYLON.MeshWriter(scene2, {scale2:scale2});
+        text1  = new Writer(
+            "horizon escape",
+            {
+                "anchor": "center",
+                "letter-height": 5,
+                "font-family":"StargazerStencil",
+                // "color": "03FBD7",
+                "position": {
+                    // "x": 0,
+                    "y": 9,
+                    // "z": 0
+                }
+            }
+        );
+    }
+
+    // Create a light
+    var light2 = new BABYLON.HemisphericLight("light2", new BABYLON.Vector3(0, 1, 0), scene2);
+
+    // Default intensity is 1. Let's dim the light a small amount
+    light2.intensity = 0.3;	
+
+    var ground2 = BABYLON.MeshBuilder.CreateGround("ground", {width: 0, height: 0}, scene2);
+        
+    // scene 3 (sphere and game scene later)
+    var scene3 = new BABYLON.Scene(engine);
+	var camera3 = new BABYLON.ArcRotateCamera("Camera3", -Math.PI / 2, Math.PI / 2, 5, BABYLON.Vector3.Zero(), scene3);
+	camera3.attachControl(canvas, true);
+
+    var light3 = new BABYLON.HemisphericLight("light3", new BABYLON.Vector3(1, 0.5, 0), scene3);
+    light3.intensity = 0.8;
+
+    var sphere3 = BABYLON.MeshBuilder.CreateSphere("sphere3", {diameter:1}, scene3);
+    sphere3.visibility = true;
+
+    // gui both scenes
+    var clicks = 0;
+    var showScene = 0;
+    var advancedTexture;
+    var goToGame;
+    var goToMenu;
+    var goToCredit;
+
+    // make a panel for the menu
+    var createGUI = function(scene2, showScene) {             
+        switch (showScene) {
+            case 0:            
+                goToGame = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI", true, scene2);
+                var UiPanel = new BABYLON.GUI.StackPanel();
+                UiPanel.width = "200px";
+                UiPanel.fontSize = "20px";
+                // UiPanel.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
+                // UiPanel.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_CENTER;
+                goToGame.addControl(UiPanel);
+            break
+            case 1:            
+                goToCredit = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI", true, scene2);
+                var UiPanel = new BABYLON.GUI.StackPanel();
+                UiPanel.width = "200px";
+                UiPanel.fontSize = "20px";
+                // UiPanel.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
+                // UiPanel.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_CENTER;
+                goToCredit.addControl(UiPanel);
+            break
+        }
+   
+
+        var button = BABYLON.GUI.Button.CreateSimpleButton("but", "Play");
+        button.paddingTop = "10px";
+        button.width = "200px";
+        button.height = "50px";
+        button.color = "aquamarine";
+        // button.background = "green";
+        // button.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP
+        // advancedTexture.addControl(button);
+        UiPanel.addControl(button);
+    
+        button.onPointerUpObservable.add(function () {       
+            clicks++;                   
+        });
+
+        // // button 2 = credits
+    var button2 = BABYLON.GUI.Button.CreateSimpleButton("but2", "Credits");
+        button2.paddingTop = "10px";
+        button2.width = "200px";
+        button2.height = "50px";
+        button2.color = "aquamarine";
+        // advancedTexture.addControl(button2);
+
+    //     // button1.background = "green";
+    
+        UiPanel.addControl(button2);
+    }
+
+    createGUI(scene2, showScene);
+
+    
+    // //runRenderLoop inside a setTimeout is neccesary in the Playground
+    // //to stop the PG's runRenderLoop.
+    // setTimeout(function() {
+    //     engine.stopRenderLoop();
+
+    //     engine.runRenderLoop(function () {
+    //         scene.render();
+    //         scene1.render();
+    //     });
+    // }, 500);
+
+    
+    setTimeout(function() {
+   
+   engine.stopRenderLoop();
+
+   engine.runRenderLoop(function () {
+        
+       if(showScene != (clicks % 2)){
+           showScene = clicks % 2;          
+           switch (showScene) {
+               case 0:
+               scene.render();                     
+                   goToGame.dispose();
+                   goToCredit.dispose();
+                   createGUI(scene2, showScene);
+                   scene2.render();
+                   
+                    scene1.render();
+               break
+            //    case 1:
+            //        // advancedTexture.dispose();
+            //        // goToGame.dispose();
+            //        // goToCredit.dispose();
+            //        // createGUI(scene1, showScene);
+            //        scene3.render();
+               break
+           }
+       }
+   });
+    }, 500000); 
+    
+
+    return scene;
+}
+
+        var scene = createScene();
+        engine.runRenderLoop(function() {
+            scene.render();
+        });
+        window.addEventListener("resize", function() {
+            engine.resize();
+        });
+        </script>
+    </body>
+  </html>
