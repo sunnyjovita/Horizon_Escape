@@ -185,6 +185,13 @@ var createScene = function () {
                 customMesh.updateVerticesData(BABYLON.VertexBuffer.PositionKind, positions);
             }
   
+            // scene 2
+            // var scene2 = new BABYLON.Scene(engine);
+            // var camera2 = new BABYLON.FreeCamera("FreeCamera", new BABYLON.Vector3(0, 0, 0), scene2);
+
+            // Load the sound and play it automatically once ready
+            // var music = new BABYLON.Sound("Main", "music/Guitar-Mayhem.mp3.wav", scene, null, { loop: true, autoplay: true });
+	
 
     // var ground2 = BABYLON.MeshBuilder.CreateGround("ground", {width: 0, height: 0}, scene);
         
@@ -251,6 +258,7 @@ var createScene = function () {
         engine.runRenderLoop(function () {
             scene.render();
             scene1.render();
+           
         });
     }, 500);
     
