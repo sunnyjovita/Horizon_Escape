@@ -59,13 +59,9 @@
             // skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
  
             BABYLON.SceneLoader.ImportMeshAsync("", "https://raw.githubusercontent.com/sunnyjovita/Horizon_Escape/master/final_project/assets/", "galaxy.babylon");
+            
+            
 
-
-            // BABYLON.SceneLoader.ImportMeshAsync("", "https://raw.githubusercontent.com/sunnyjovita/Horizon_Escape/master/final_project/assets/", "ship.babylon");
-
-// const camera = new BABYLON.ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2.5, 15, new BABYLON.Vector3(0, 0, 0));
-// camera.attachControl(canvas, true);
-// const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(1, 1, 0));
 
             return scene0;
         }
@@ -263,58 +259,58 @@
         var goToMenu;
         var goToCredit;
 
-        // // make a panel for the menu
-        // var createGUI = function(scene0, showScene) {             
-        //     switch (showScene) {
-        //         case 0:            
-        //             goToGame = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI", true, scene0);
-        //             var UiPanel = new BABYLON.GUI.StackPanel();
-        //             UiPanel.width = "200px";
-        //             UiPanel.fontSize = "20px";
-        //             // UiPanel.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
-        //             // UiPanel.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_CENTER;
-        //             goToGame.addControl(UiPanel);
-        //         break
-        //         case 1:            
-        //             goToCredit = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI", true, scene0);
-        //             var UiPanel = new BABYLON.GUI.StackPanel();
-        //             UiPanel.width = "200px";
-        //             UiPanel.fontSize = "20px";
-        //             // UiPanel.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
-        //             // UiPanel.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_CENTER;
-        //             goToCredit.addControl(UiPanel);
-        //         break
-        // }
+        // make a panel for the menu
+        var createGUI = function(scene0, showScene) {             
+            switch (showScene) {
+                case 0:            
+                    goToGame = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI", true, scene0);
+                    var UiPanel = new BABYLON.GUI.StackPanel();
+                    UiPanel.width = "200px";
+                    UiPanel.fontSize = "20px";
+                    // UiPanel.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
+                    // UiPanel.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_CENTER;
+                    goToGame.addControl(UiPanel);
+                break
+                case 1:            
+                    goToCredit = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI", true, scene0);
+                    var UiPanel = new BABYLON.GUI.StackPanel();
+                    UiPanel.width = "200px";
+                    UiPanel.fontSize = "20px";
+                    // UiPanel.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
+                    // UiPanel.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_CENTER;
+                    goToCredit.addControl(UiPanel);
+                break
+        }
    
 
-        // var button = BABYLON.GUI.Button.CreateSimpleButton("but", "Play");
-        // button.paddingTop = "10px";
-        // button.width = "200px";
-        // button.height = "50px";
-        // button.color = "aquamarine";
-        // // button.background = "green";
-        // // button.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP
-        // // advancedTexture.addControl(button);
-        // UiPanel.addControl(button);
+        var button = BABYLON.GUI.Button.CreateSimpleButton("but", "Play");
+        button.paddingTop = "10px";
+        button.width = "200px";
+        button.height = "50px";
+        button.color = "aquamarine";
+        // button.background = "green";
+        // button.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP
+        // advancedTexture.addControl(button);
+        UiPanel.addControl(button);
     
-        // button.onPointerUpObservable.add(function () {       
-        //     clicks++;                   
-        // });
+        button.onPointerUpObservable.add(function () {       
+            clicks++;                   
+        });
 
-        // // // button 2 = credits
-        //  var button2 = BABYLON.GUI.Button.CreateSimpleButton("but2", "Credits");
-        // button2.paddingTop = "10px";
-        // button2.width = "200px";
-        // button2.height = "50px";
-        // button2.color = "aquamarine";
-        // // advancedTexture.addControl(button2);
+        // // button 2 = credits
+         var button2 = BABYLON.GUI.Button.CreateSimpleButton("but2", "Credits");
+        button2.paddingTop = "10px";
+        button2.width = "200px";
+        button2.height = "50px";
+        button2.color = "aquamarine";
+        // advancedTexture.addControl(button2);
 
-        //  // button1.background = "green";
+         // button1.background = "green";
     
-        // UiPanel.addControl(button2);
-        // }
+        UiPanel.addControl(button2);
+        }
 
-        // createGUI(scene0, showScene);
+        createGUI(scene0, showScene);
 
         //Any other code
         var scene0 = createScene0();
@@ -325,7 +321,7 @@
         engine.runRenderLoop(function () {
         // scene3.render();
         scene0.render();
-        // scene1.render();
+        scene1.render();
         
         });
 

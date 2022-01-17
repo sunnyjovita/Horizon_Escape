@@ -46,150 +46,188 @@ var createScene = function () {
             var camera = new BABYLON.ArcRotateCamera("Camera", -Math.PI / 2,7 * Math.PI / 16, 10, BABYLON.Vector3.Zero(), scene);
 
             camera.attachControl(canvas, true);
+
+            BABYLON.SceneLoader.ImportMeshAsync("", "https://raw.githubusercontent.com/sunnyjovita/Horizon_Escape/master/final_project/assets/", "galaxy.babylon", scene);
+
+
             // const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(1, 1, 0));
 
-            var spot = new BABYLON.SpotLight("spot", new BABYLON.Vector3(0, 30, 10), new BABYLON.Vector3(0, -1, 0), 17, 1, scene);
-            spot.diffuse = new BABYLON.Color3(1, 1, 1);
-            spot.specular = new BABYLON.Color3(0, 0, 0);
-            spot.intensity = 0.3;
+            // var spot = new BABYLON.SpotLight("spot", new BABYLON.Vector3(0, 30, 10), new BABYLON.Vector3(0, -1, 0), 17, 1, scene);
+            // spot.diffuse = new BABYLON.Color3(1, 1, 1);
+            // spot.specular = new BABYLON.Color3(0, 0, 0);
+            // spot.intensity = 0.3;
         
-            var skybox = BABYLON.Mesh.CreateBox('skybox', 1000.0, scene);
-            var skyboxMaterial = new BABYLON.StandardMaterial('skybox', scene);
-            skyboxMaterial.backFaceCulling = false;
-            skybox.material = skyboxMaterial;
+            // var skybox = BABYLON.Mesh.CreateBox('skybox', 1000.0, scene);
+            // var skyboxMaterial = new BABYLON.StandardMaterial('skybox', scene);
+            // skyboxMaterial.backFaceCulling = false;
+            // skybox.material = skyboxMaterial;
             
-            skybox.infiniteDistance = true;
-            skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture('https://raw.githubusercontent.com/sunnyjovita/Horizon_Escape/master/skybox/assets/sky', scene);    
+            // skybox.infiniteDistance = true;
+            // skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture('https://raw.githubusercontent.com/sunnyjovita/Horizon_Escape/master/skybox/assets/sky', scene);    
             
-            skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+            // skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
 
    // scene 1
-	var scene1 = new BABYLON.Scene(engine);
-    scene1.clearColor = BABYLON.Color3.Black();
-    scene1.autoClear = false;
+   var scene1 = new BABYLON.Scene(engine);
+            scene1.clearColor = BABYLON.Color3.Black();
+            scene1.autoClear = false;
 
-    //Create a light
-    var light = new BABYLON.PointLight("light", new BABYLON.Vector3(-60, 60, 80), scene1);
-	
-    // create camera
-    var camera = new BABYLON.ArcRotateCamera("Camera", -Math.PI / 2,7 * Math.PI / 16, 10, BABYLON.Vector3.Zero(), scene1);
+            var scale   = 0.4;
 
-    // var camera = new BABYLON.ArcRotateCamera("Camera", Math.PI / 2, 1.0, 210, BABYLON.Vector3.Zero(), scene);
-    
-    camera.attachControl(canvas, true);
+            var camera  = new BABYLON.ArcRotateCamera("Camera", -Math.PI/2, Math.PI/4.4, 25, BABYLON.Vector3.Zero(), scene1);
+            // scene2.onAfterCameraRenderObservable;
+            // camera.attachControl(canvas, true);
+            camera.detachControl();
 
-	//Create a custom mesh  
-	var customMesh = new BABYLON.Mesh("custom", scene1);
-	
-	//Set arrays for positions and indices
-	var positions = [];
-    var colors = [];
-
-    var pointsCount = 10000;
-
-    var positions = new Array(3 * pointsCount);
-    positions.fill(0);
-
-    var velocity = [];
-
-    var theta = 0;
-    var psi = 0;
-    var x = 0;
-    var y = 0;
-    var z = 0;
-    for(var p = 0; p<pointsCount; p++) {
-
-        theta = 2 * Math.random() * Math.PI;
-        psi = 2 * Math.random() * Math.PI;
-        
-        velocity[3 * p] = Math.sin(theta) * Math.cos(psi)* 10; // * Math.random();
-        velocity[3 * p + 1] = Math.sin(theta) * Math.sin(psi)* 10; // * Math.random();
-        velocity[3 * p + 2] = Math.cos(theta) * 10; // * Math.random(); 
-    }
-
-    var colors = new Array(4 * pointsCount);
-    colors = colors.fill(0).map((x) => {
-        return 1 - (Math.random()/4);
-    })
-
-	var vertexData = new BABYLON.VertexData();
-
-	//Assign positions
-	vertexData.positions = positions;
-    vertexData.colors = colors;
-
-	//Apply vertexData to custom mesh
-	vertexData.applyToMesh(customMesh, true);
-	
-    var mat = new BABYLON.StandardMaterial("mat", scene1);
-	mat.emissiveColor = new BABYLON.Color3(1, 1, 1);
-    mat.disableLighting = true;
-    mat.pointsCloud = true;
-    mat.pointSize = 1;
-	
-	customMesh.material = mat;
-
-    var dir = true;
-    document.onkeydown = ()=>{
-        dir = !dir
-    }
-
-    var posLen = positions.length;
-
-
-    var IntervalhidgesID2 = setInterval(myMethod2, 100);
-    function myMethod2() {                          
-        for(var p = 0; p < posLen; p++) {
-            if(dir){
-                positions[p] += velocity[p];
-            }else{
-                positions[p] -= velocity[p];
+            if ( typeof TYPE === "undefined" ) {
+                jQuery.getScript(typeURLLeftover).then(write)
+            } else {
+                write()
             }
-            
-       }
-        customMesh.updateVerticesData(BABYLON.VertexBuffer.PositionKind, positions);
-    }
 
-    // scene 2 (title)
-    var scene2 = new BABYLON.Scene(engine);
-    var scale2   = 0.4;
-
-	var camera2  = new BABYLON.ArcRotateCamera("Camera", -Math.PI/2, Math.PI/4.4, 25, BABYLON.Vector3.Zero(), scene2);
-    camera2.attachControl(canvas, true);
-
-    if ( typeof TYPE === "undefined" ) {
-        jQuery.getScript(typeURLLeftover).then(write)
-    } else {
-        write()
-    }
-
-    function write () {
-        Writer = BABYLON.MeshWriter(scene2, {scale2:scale2});
-        text1  = new Writer(
-            "horizon escape",
-            {
-                "anchor": "center",
-                "letter-height": 5,
-                "font-family":"StargazerStencil",
-                // "color": "03FBD7",
-                "position": {
-                    // "x": 0,
-                    "y": 9,
-                    // "z": 0
-                }
+            function write () {
+                Writer = BABYLON.MeshWriter(scene1, {scale:scale});
+                text1  = new Writer(
+                    "horizon escape",
+                    {
+                        "anchor": "center",
+                        "letter-height": 5,
+                        "font-family":"StargazerStencil",
+                        // "color": "03FBD7",
+                        "position": {
+                            // "x": 0,
+                            "y": 9,
+                            // "z": 0
+                        }
+                    }
+                );
             }
-        );
-    }
 
-    // Create a light
-    var light2 = new BABYLON.HemisphericLight("light2", new BABYLON.Vector3(0, 1, 0), scene2);
 
-    // Default intensity is 1. Let's dim the light a small amount
-    light2.intensity = 0.3;	
+            var light = new BABYLON.HemisphericLight("light2", new BABYLON.Vector3(0, 1, 0), scene1);
 
-    var ground2 = BABYLON.MeshBuilder.CreateGround("ground", {width: 0, height: 0}, scene2);
+            // Default intensity is 1. Let's dim the light a small amount
+            light.intensity = 0.3;	
+
+            //Create a light
+            // var light = new BABYLON.PointLight("light", new BABYLON.Vector3(-60, 60, 80), scene1);
+	
+            // create camera
+            // var camera = new BABYLON.ArcRotateCamera("Camera", -Math.PI / 2,7 * Math.PI / 16, 10, BABYLON.Vector3.Zero(), scene1);
+            // camera.attachControl(canvas, true);
+
+            //Create a custom mesh  
+            var customMesh = new BABYLON.Mesh("custom", scene1);
+            // var light2 = new BABYLON.PointLight("light", new BABYLON.Vector3(-60, 60, 80), scene1);
+
+            //Set arrays for positions and indices
+            var positions = [];
+            var colors = [];
+
+            var pointsCount = 10000;
+
+            var positions = new Array(3 * pointsCount);
+            positions.fill(0);
+
+            var velocity = [];
+
+            var theta = 0;
+            var psi = 0;
+            var x = 0;
+            var y = 0;
+            var z = 0;
+            for(var p = 0; p<pointsCount; p++) {
+
+                theta = 2 * Math.random() * Math.PI;
+                psi = 2 * Math.random() * Math.PI;
+                
+                velocity[3 * p] = Math.sin(theta) * Math.cos(psi)* 10; // * Math.random();
+                velocity[3 * p + 1] = Math.sin(theta) * Math.sin(psi)* 10; // * Math.random();
+                velocity[3 * p + 2] = Math.cos(theta) * 10; // * Math.random(); 
+            }
+
+            var colors = new Array(4 * pointsCount);
+            colors = colors.fill(0).map((x) => {
+                return 1 - (Math.random()/4);
+            })
+
+            var vertexData = new BABYLON.VertexData();
+
+            //Assign positions
+            vertexData.positions = positions;
+            vertexData.colors = colors;
+
+            //Apply vertexData to custom mesh
+            vertexData.applyToMesh(customMesh, true);
+	
+            var mat = new BABYLON.StandardMaterial("mat", scene1);
+            mat.emissiveColor = new BABYLON.Color3(1, 1, 1);
+            mat.disableLighting = true;
+            mat.pointsCloud = true;
+            mat.pointSize = 1;
+	
+	        customMesh.material = mat;
+
+            var dir = true;
+            document.onkeydown = ()=>{
+                dir = !dir
+            }
+
+            var posLen = positions.length;
+
+
+            var IntervalhidgesID2 = setInterval(myMethod2, 100);
+            function myMethod2() {                          
+                for(var p = 0; p < posLen; p++) {
+                    if(dir){
+                        positions[p] += velocity[p];
+                    }else{
+                        positions[p] -= velocity[p];
+                    }
+                    
+            }
+                customMesh.updateVerticesData(BABYLON.VertexBuffer.PositionKind, positions);
+            }
+    // // scene 2 (title)
+    // var scene2 = new BABYLON.Scene(engine);
+    // var scale2   = 0.4;
+
+	// var camera2  = new BABYLON.ArcRotateCamera("Camera", -Math.PI/2, Math.PI/4.4, 25, BABYLON.Vector3.Zero(), scene2);
+    // camera2.attachControl(canvas, true);
+
+    // if ( typeof TYPE === "undefined" ) {
+    //     jQuery.getScript(typeURLLeftover).then(write)
+    // } else {
+    //     write()
+    // }
+
+    // function write () {
+    //     Writer = BABYLON.MeshWriter(scene2, {scale2:scale2});
+    //     text1  = new Writer(
+    //         "horizon escape",
+    //         {
+    //             "anchor": "center",
+    //             "letter-height": 5,
+    //             "font-family":"StargazerStencil",
+    //             // "color": "03FBD7",
+    //             "position": {
+    //                 // "x": 0,
+    //                 "y": 9,
+    //                 // "z": 0
+    //             }
+    //         }
+    //     );
+    // }
+
+    // // Create a light
+    // var light2 = new BABYLON.HemisphericLight("light2", new BABYLON.Vector3(0, 1, 0), scene2);
+
+    // // Default intensity is 1. Let's dim the light a small amount
+    // light2.intensity = 0.3;	
+
+    var ground2 = BABYLON.MeshBuilder.CreateGround("ground", {width: 0, height: 0}, scene);
         
-    // scene 3 (sphere and game scene later)
+    // // scene 3 (sphere and game scene later)
     var scene3 = new BABYLON.Scene(engine);
 	var camera3 = new BABYLON.ArcRotateCamera("Camera3", -Math.PI / 2, Math.PI / 2, 5, BABYLON.Vector3.Zero(), scene3);
 	camera3.attachControl(canvas, true);
@@ -209,10 +247,10 @@ var createScene = function () {
     var goToCredit;
 
     // make a panel for the menu
-    var createGUI = function(scene2, showScene) {             
+    var createGUI = function(scene, showScene) {             
         switch (showScene) {
             case 0:            
-                goToGame = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI", true, scene2);
+                goToGame = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI", true, scene);
                 var UiPanel = new BABYLON.GUI.StackPanel();
                 UiPanel.width = "200px";
                 UiPanel.fontSize = "20px";
@@ -221,7 +259,7 @@ var createScene = function () {
                 goToGame.addControl(UiPanel);
             break
             case 1:            
-                goToCredit = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI", true, scene2);
+                goToCredit = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI", true, scene3);
                 var UiPanel = new BABYLON.GUI.StackPanel();
                 UiPanel.width = "200px";
                 UiPanel.fontSize = "20px";
@@ -230,9 +268,18 @@ var createScene = function () {
                 goToCredit.addControl(UiPanel);
             break
         }
+
+        // var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI", true, scene);
+        // var UiPanel = new BABYLON.GUI.StackPanel();
+        // UiPanel.width = "200px";
+        // UiPanel.fontSize = "20px";
+        // // UiPanel.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
+        // // UiPanel.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_CENTER;
+        // advancedTexture.addControl(UiPanel);
    
 
         var button = BABYLON.GUI.Button.CreateSimpleButton("but", "Play");
+        // var button = BABYLON.GUI.Button.CreateSimpleButton("but", "Play " + ((clicks + 1) % 2));
         button.paddingTop = "10px";
         button.width = "200px";
         button.height = "50px";
@@ -259,11 +306,11 @@ var createScene = function () {
         UiPanel.addControl(button2);
     }
 
-    createGUI(scene2, showScene);
 
-    
-    //runRenderLoop inside a setTimeout is neccesary in the Playground
-    //to stop the PG's runRenderLoop.
+           
+
+    createGUI(scene, showScene);
+
     setTimeout(function() {
         engine.stopRenderLoop();
 
@@ -284,25 +331,21 @@ var createScene = function () {
 //            showScene = clicks % 2;          
 //            switch (showScene) {
 //                case 0:
-//                scene.render();                     
-//                    goToGame.dispose();
-//                    goToCredit.dispose();
-//                    createGUI(scene2, showScene);
-//                    scene2.render();
-                   
-//                     scene1.render();
-//                break
-//             //    case 1:
-//             //        // advancedTexture.dispose();
-//             //        // goToGame.dispose();
-//             //        // goToCredit.dispose();
-//             //        // createGUI(scene1, showScene);
-//             //        scene3.render();
+//                         // advancedTexture.dispose();
+//                         // createGUI(scene, showScene);
+//                         // scene.render();
+                        
+
+//                     break
+//                case 1:
+//                 //   advancedTexture.dispose();
+//                     // createGUI(scene3, showScene);
+//                     // scene3.render();
 //                break
 //            }
 //        }
 //    });
-//     }, 500000); 
+//     }, 500);
     
 
     return scene;
