@@ -47,7 +47,7 @@ var createScene = function () {
 
             camera.attachControl(canvas, true);
 
-            var music = new BABYLON.Sound("Violons", "https://raw.githubusercontent.com/sunnyjovita/Horizon_Escape/main/final_project/assets/music/Guitar-Mayhem.mp3", scene, null, { loop: true, autoplay: true });
+            var music = new BABYLON.Sound("main", "https://raw.githubusercontent.com/sunnyjovita/Horizon_Escape/main/final_project/assets/music/Guitar-Mayhem.mp3", scene, null, { loop: true, autoplay: true });
 
 
             BABYLON.SceneLoader.ImportMeshAsync("", "https://raw.githubusercontent.com/sunnyjovita/Horizon_Escape/master/final_project/assets/", "galaxy.babylon", scene);
