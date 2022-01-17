@@ -188,44 +188,9 @@ var createScene = function () {
             }
                 customMesh.updateVerticesData(BABYLON.VertexBuffer.PositionKind, positions);
             }
-    // // scene 2 (title)
-    // var scene2 = new BABYLON.Scene(engine);
-    // var scale2   = 0.4;
+  
 
-	// var camera2  = new BABYLON.ArcRotateCamera("Camera", -Math.PI/2, Math.PI/4.4, 25, BABYLON.Vector3.Zero(), scene2);
-    // camera2.attachControl(canvas, true);
-
-    // if ( typeof TYPE === "undefined" ) {
-    //     jQuery.getScript(typeURLLeftover).then(write)
-    // } else {
-    //     write()
-    // }
-
-    // function write () {
-    //     Writer = BABYLON.MeshWriter(scene2, {scale2:scale2});
-    //     text1  = new Writer(
-    //         "horizon escape",
-    //         {
-    //             "anchor": "center",
-    //             "letter-height": 5,
-    //             "font-family":"StargazerStencil",
-    //             // "color": "03FBD7",
-    //             "position": {
-    //                 // "x": 0,
-    //                 "y": 9,
-    //                 // "z": 0
-    //             }
-    //         }
-    //     );
-    // }
-
-    // // Create a light
-    // var light2 = new BABYLON.HemisphericLight("light2", new BABYLON.Vector3(0, 1, 0), scene2);
-
-    // // Default intensity is 1. Let's dim the light a small amount
-    // light2.intensity = 0.3;	
-
-    var ground2 = BABYLON.MeshBuilder.CreateGround("ground", {width: 0, height: 0}, scene);
+    // var ground2 = BABYLON.MeshBuilder.CreateGround("ground", {width: 0, height: 0}, scene);
         
     // // scene 3 (sphere and game scene later)
     var scene3 = new BABYLON.Scene(engine);
@@ -247,9 +212,7 @@ var createScene = function () {
     var goToCredit;
 
     // make a panel for the menu
-    var createGUI = function(scene, showScene) {             
-        switch (showScene) {
-            case 0:            
+    var createGUI = function(scene, showScene) {                       
             advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI", true, scene);
                 var UiPanel = new BABYLON.GUI.StackPanel();
                 UiPanel.width = "200px";
@@ -257,41 +220,21 @@ var createScene = function () {
                 // UiPanel.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
                 // UiPanel.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_CENTER;
             advancedTexture.addControl(UiPanel);
-            break
-            case 1:            
-            advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI", true, scene3);
-                var UiPanel = new BABYLON.GUI.StackPanel();
-                UiPanel.width = "200px";
-                UiPanel.fontSize = "20px";
-                // UiPanel.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
-                // UiPanel.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_CENTER;
-                advancedTexture.addControl(UiPanel);
-            break
-        }
-
-        // var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI", true, scene);
-        // var UiPanel = new BABYLON.GUI.StackPanel();
-        // UiPanel.width = "200px";
-        // UiPanel.fontSize = "20px";
-        // // UiPanel.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
-        // // UiPanel.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_CENTER;
-        // advancedTexture.addControl(UiPanel);
-   
-
+            
         var button = BABYLON.GUI.Button.CreateSimpleButton("but", "Play");
-        // var button = BABYLON.GUI.Button.CreateSimpleButton("but", "Play " + ((clicks + 1) % 2));
         button.paddingTop = "10px";
         button.width = "200px";
         button.height = "50px";
         button.color = "aquamarine";
-        // button.background = "green";
-        // button.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP
         // advancedTexture.addControl(button);
         UiPanel.addControl(button);
     
         button.onPointerUpObservable.add(function () {       
-            clicks++;                   
+            engine.runRenderLoop(function(){
+                    scene3.render();
+                })                   
         });
+
 
         // // button 2 = credits
     var button2 = BABYLON.GUI.Button.CreateSimpleButton("but2", "Credits");
@@ -300,8 +243,6 @@ var createScene = function () {
         button2.height = "50px";
         button2.color = "aquamarine";
         // advancedTexture.addControl(button2);
-
-    //     // button1.background = "green";
     
         UiPanel.addControl(button2);
     }
@@ -316,33 +257,6 @@ var createScene = function () {
             scene1.render();
         });
     }, 500);
-
-    
-//     setTimeout(function() {
-   
-//    engine.stopRenderLoop();
-
-//    engine.runRenderLoop(function () {
-        
-//        if(showScene != (clicks % 2)){
-//            showScene = clicks % 2;          
-//            switch (showScene) {
-//                case 0:
-//                         // advancedTexture.dispose();
-//                         // createGUI(scene, showScene);
-//                         // scene.render();
-                        
-
-//                     break
-//                case 1:
-//                 //   advancedTexture.dispose();
-//                     // createGUI(scene3, showScene);
-//                     // scene3.render();
-//                break
-//            }
-//        }
-//    });
-//     }, 500);
     
 
     return scene;
@@ -351,6 +265,7 @@ var createScene = function () {
         var scene = createScene();
         engine.runRenderLoop(function() {
             scene.render();
+            
         });
         window.addEventListener("resize", function() {
             engine.resize();
