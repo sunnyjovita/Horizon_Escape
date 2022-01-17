@@ -262,47 +262,47 @@ var createScene = function () {
     createGUI(scene2, showScene);
 
     
-    // //runRenderLoop inside a setTimeout is neccesary in the Playground
-    // //to stop the PG's runRenderLoop.
-    // setTimeout(function() {
-    //     engine.stopRenderLoop();
+    //runRenderLoop inside a setTimeout is neccesary in the Playground
+    //to stop the PG's runRenderLoop.
+    setTimeout(function() {
+        engine.stopRenderLoop();
 
-    //     engine.runRenderLoop(function () {
-    //         scene.render();
-    //         scene1.render();
-    //     });
-    // }, 500);
+        engine.runRenderLoop(function () {
+            scene.render();
+            scene1.render();
+        });
+    }, 500);
 
     
-    setTimeout(function() {
+//     setTimeout(function() {
    
-   engine.stopRenderLoop();
+//    engine.stopRenderLoop();
 
-   engine.runRenderLoop(function () {
+//    engine.runRenderLoop(function () {
         
-       if(showScene != (clicks % 2)){
-           showScene = clicks % 2;          
-           switch (showScene) {
-               case 0:
-               scene.render();                     
-                   goToGame.dispose();
-                   goToCredit.dispose();
-                   createGUI(scene2, showScene);
-                   scene2.render();
+//        if(showScene != (clicks % 2)){
+//            showScene = clicks % 2;          
+//            switch (showScene) {
+//                case 0:
+//                scene.render();                     
+//                    goToGame.dispose();
+//                    goToCredit.dispose();
+//                    createGUI(scene2, showScene);
+//                    scene2.render();
                    
-                    scene1.render();
-               break
-            //    case 1:
-            //        // advancedTexture.dispose();
-            //        // goToGame.dispose();
-            //        // goToCredit.dispose();
-            //        // createGUI(scene1, showScene);
-            //        scene3.render();
-               break
-           }
-       }
-   });
-    }, 500000); 
+//                     scene1.render();
+//                break
+//             //    case 1:
+//             //        // advancedTexture.dispose();
+//             //        // goToGame.dispose();
+//             //        // goToCredit.dispose();
+//             //        // createGUI(scene1, showScene);
+//             //        scene3.render();
+//                break
+//            }
+//        }
+//    });
+//     }, 500000); 
     
 
     return scene;

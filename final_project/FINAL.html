@@ -43,21 +43,29 @@
             var camera = new BABYLON.ArcRotateCamera("Camera", -Math.PI / 2,7 * Math.PI / 16, 10, BABYLON.Vector3.Zero(), scene0);
             camera.attachControl(canvas, true);
 
-            var spot = new BABYLON.SpotLight("spot", new BABYLON.Vector3(0, 30, 10), new BABYLON.Vector3(0, -1, 0), 17, 1, scene0);
-            spot.diffuse = new BABYLON.Color3(1, 1, 1);
-            spot.specular = new BABYLON.Color3(0, 0, 0);
-            spot.intensity = 0.3;
+            // var spot = new BABYLON.SpotLight("spot", new BABYLON.Vector3(0, 30, 10), new BABYLON.Vector3(0, -1, 0), 17, 1, scene0);
+            // spot.diffuse = new BABYLON.Color3(1, 1, 1);
+            // spot.specular = new BABYLON.Color3(0, 0, 0);
+            // spot.intensity = 0.3;
 
-            var skybox = BABYLON.Mesh.CreateBox('skybox', 1000.0, scene0);
-            var skyboxMaterial = new BABYLON.StandardMaterial('skybox', scene0);
-            skyboxMaterial.backFaceCulling = false;
-            skybox.material = skyboxMaterial;
+            // var skybox = BABYLON.Mesh.CreateBox('skybox', 1000.0, scene0);
+            // var skyboxMaterial = new BABYLON.StandardMaterial('skybox', scene0);
+            // skyboxMaterial.backFaceCulling = false;
+            // skybox.material = skyboxMaterial;
 
-            skybox.infiniteDistance = true;
-            skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture('https://raw.githubusercontent.com/sunnyjovita/Horizon_Escape/master/skybox/assets/sky', scene0);    
+            // skybox.infiniteDistance = true;
+            // skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture('https://raw.githubusercontent.com/sunnyjovita/Horizon_Escape/master/skybox/assets/sky', scene0);    
 
-            skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+            // skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+ 
+            BABYLON.SceneLoader.ImportMeshAsync("", "https://raw.githubusercontent.com/sunnyjovita/Horizon_Escape/master/final_project/assets/", "galaxy.babylon");
 
+
+            // BABYLON.SceneLoader.ImportMeshAsync("", "https://raw.githubusercontent.com/sunnyjovita/Horizon_Escape/master/final_project/assets/", "ship.babylon");
+
+// const camera = new BABYLON.ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2.5, 15, new BABYLON.Vector3(0, 0, 0));
+// camera.attachControl(canvas, true);
+// const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(1, 1, 0));
 
             return scene0;
         }
@@ -317,7 +325,7 @@
         engine.runRenderLoop(function () {
         // scene3.render();
         scene0.render();
-        scene1.render();
+        // scene1.render();
         
         });
 
