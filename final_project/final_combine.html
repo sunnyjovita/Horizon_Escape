@@ -250,22 +250,22 @@ var createScene = function () {
     var createGUI = function(scene, showScene) {             
         switch (showScene) {
             case 0:            
-                goToGame = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI", true, scene);
+            advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI", true, scene);
                 var UiPanel = new BABYLON.GUI.StackPanel();
                 UiPanel.width = "200px";
                 UiPanel.fontSize = "20px";
                 // UiPanel.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
                 // UiPanel.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_CENTER;
-                goToGame.addControl(UiPanel);
+            advancedTexture.addControl(UiPanel);
             break
             case 1:            
-                goToCredit = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI", true, scene3);
+            advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI", true, scene3);
                 var UiPanel = new BABYLON.GUI.StackPanel();
                 UiPanel.width = "200px";
                 UiPanel.fontSize = "20px";
                 // UiPanel.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
                 // UiPanel.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_CENTER;
-                goToCredit.addControl(UiPanel);
+                advancedTexture.addControl(UiPanel);
             break
         }
 
@@ -305,9 +305,6 @@ var createScene = function () {
     
         UiPanel.addControl(button2);
     }
-
-
-           
 
     createGUI(scene, showScene);
 
