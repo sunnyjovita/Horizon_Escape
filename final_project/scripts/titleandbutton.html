@@ -48,30 +48,7 @@ var createScene = function () {
     camera.attachControl(canvas, true);
 
 
-    // These lines load the module, if not already loaded, and then call write
-    if ( typeof TYPE === "undefined" ) {
-        jQuery.getScript(typeURLLeftover).then(write)
-    } else {
-        write()
-    }
-
-      function write () {
-        Writer = BABYLON.MeshWriter(scene, {scale:scale});
-        text1  = new Writer(
-            "horizon escape",
-            {
-                "anchor": "center",
-                "letter-height": 5,
-                "font-family":"StargazerStencil",
-                // "color": "03FBD7",
-                "position": {
-                    // "x": 0,
-                    "y": 9,
-                    // "z": 0
-                }
-            }
-        );
-    }
+    
 
 
     // Create a light
@@ -158,6 +135,31 @@ var createScene = function () {
     }
 
     createGUI(scene, showScene);
+
+    // These lines load the module, if not already loaded, and then call write
+    if ( typeof TYPE === "undefined" ) {
+        jQuery.getScript(typeURLLeftover).then(write)
+    } else {
+        write()
+    }
+
+      function write () {
+        Writer = BABYLON.MeshWriter(scene, {scale:scale});
+        text1  = new Writer(
+            "horizon escape",
+            {
+                "anchor": "center",
+                "letter-height": 5,
+                "font-family":"StargazerStencil",
+                // "color": "03FBD7",
+                "position": {
+                    // "x": 0,
+                    "y": 9,
+                    // "z": 0
+                }
+            }
+        );
+    }
     
 
     setTimeout(function() {
@@ -186,7 +188,7 @@ var createScene = function () {
         });
     }
    
-    , 2500); 
+    , 5000); 
 
     return scene;
 

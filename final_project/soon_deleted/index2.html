@@ -65,22 +65,22 @@
 
             camera.attachControl(canvas, true);
 
-			const light2 = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(1, 1, 0));
+			// const light2 = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(1, 1, 0));
 
-            // var spot = new BABYLON.SpotLight("spot", new BABYLON.Vector3(0, 30, 10), new BABYLON.Vector3(0, -1, 0), 17, 1, scene);
-            // spot.diffuse = new BABYLON.Color3(1, 1, 1);
-            // spot.specular = new BABYLON.Color3(0, 0, 0);
-            // spot.intensity = 0.3;
+            var spot = new BABYLON.SpotLight("spot", new BABYLON.Vector3(0, 30, 10), new BABYLON.Vector3(0, -1, 0), 17, 1, scene);
+            spot.diffuse = new BABYLON.Color3(1, 1, 1);
+            spot.specular = new BABYLON.Color3(0, 0, 0);
+            spot.intensity = 0.7;
         
-            // var skybox = BABYLON.Mesh.CreateBox('skybox', 1000.0, scene);
-            // var skyboxMaterial = new BABYLON.StandardMaterial('skybox', scene);
-            // skyboxMaterial.backFaceCulling = false;
-            // skybox.material = skyboxMaterial;
+            var skybox = BABYLON.Mesh.CreateBox('skybox', 1000.0, scene);
+            var skyboxMaterial = new BABYLON.StandardMaterial('skybox', scene);
+            skyboxMaterial.backFaceCulling = false;
+            skybox.material = skyboxMaterial;
             
-            // skybox.infiniteDistance = true;
-            // skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture('https://raw.githubusercontent.com/sunnyjovita/Horizon_Escape/master/skybox/assets/sky', scene);    
+            skybox.infiniteDistance = true;
+            skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture('https://raw.githubusercontent.com/sunnyjovita/Horizon_Escape/master/skybox/assets/sky', scene);    
             
-            // skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+            skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
 
 
 			// BABYLON.SceneLoader.ImportMeshAsync("", "https://raw.githubusercontent.com/sunnyjovita/Horizon_Escape/master/final_project/assets/", "galaxy.babylon", scene);
@@ -90,9 +90,9 @@
 
 
         	// // lights
-        	// 	var torch = new BABYLON.PointLight("light1",BABYLON.Vector3.Zero(), scene);
-        	// 	torch.intensity = 5;
-        	// 	torch.diffuse = BABYLON.Color3.FromHexString('#ff9944');
+        		var torch = new BABYLON.PointLight("light1",BABYLON.Vector3.Zero(), scene);
+        		torch.intensity = 0.2;
+        		torch.diffuse = BABYLON.Color3.FromHexString('#ff9944');
 
 				// var light = new BABYLON.HemisphericLight("light1",BABYLON.Vector3.Zero(), scene);
         		// light.intensity = 3;
