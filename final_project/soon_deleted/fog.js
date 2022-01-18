@@ -10,48 +10,59 @@ function startGame() {
 
           // Add your code here matching the playground format
           const createScene = function () {
-
-            var scene = new BABYLON.Scene(engine);    
-            scene.clearColor = BABYLON.Color3.Gray();
-            
-            // This creates and positions a free camera (non-mesh)
-            var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 5, -10), scene);
-
-            // This targets the camera to scene origin
-            camera.setTarget(BABYLON.Vector3.Zero());
-
-            // This attaches the camera to the canvas
+            var scene = new BABYLON.Scene(engine);
+            var camera = new BABYLON.ArcRotateCamera("Camera", -Math.PI / 2, Math.PI / 2, 12, BABYLON.Vector3.Zero(), scene);
             camera.attachControl(canvas, true);
-
-            var light = new BABYLON.DirectionalLight("dir01", new BABYLON.Vector3(0, -1, -0.3), scene);
-            light.position = new BABYLON.Vector3(20, 60, 30);
-
-            // Ground
-            var ground = BABYLON.Mesh.CreateGround("ground1", 50, 50, 2, scene);
-            ground.receiveShadows = true;
-
-            var array_instances = [];
-            // Trees
-
-            // BABYLON.SceneLoader.ImportMeshAsync("", "https://raw.githubusercontent.com/sunnyjovita/Horizon_Escape/master/final_project/assets/", "ship.babylon");
-
-            BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/sunnyjovita/Horizon_Escape/master/final_project/assets/rock/", "rochers.babylon", scene, function (newMeshes, particleSystems, skeletons) {
-               var rabbit = newMeshes[1];
-               rabbit.isVisible = false;
-
-               var range = 50;
-               var count = 100;
-               for (var index = 0; index < count; index++) {
-                  var newInstance = rabbit.createInstance("i" + index);
-                  var x = range / 2 - Math.random() * range;
-                  var z = range / 2 - Math.random() * range;
-
-                  newInstance.position = new BABYLON.Vector3(x, 0, z);
-                  newInstance.scaling = new BABYLON.Vector3(0.05, 0.05, 0.05);
-                  array_instances.push(newInstance);
-               }	
-            });
-           
+        
+            var box = BABYLON.BoxBuilder.CreateBox("root", {size: 2});
+            box.alwaysSelectAsActiveMesh = true;
+        
+            let instanceCount = 20;
+            let colorData = new Float32Array(4 * instanceCount);
+        
+            for (var index = 0; index < instanceCount; index++) {
+                colorData[index * 4] = Math.random();
+                colorData[index * 4 + 1] = Math.random();
+                colorData[index * 4 + 2] = Math.random();
+                colorData[index * 4 + 3] = 1.0;
+            }
+        
+            var buffer = new BABYLON.VertexBuffer(engine, colorData, BABYLON.VertexBuffer.ColorKind, false, false, 4, true);
+            box.setVerticesBuffer(buffer);
+        
+            box.material = new BABYLON.StandardMaterial("material");
+            
+            
+            box.material.disableLighting = true;
+             
+            box.material.emissiveColor = BABYLON.Color3.White();
+         
+        
+            for (var index = 0; index < instanceCount - 1; index++) {
+                let instance = new BABYLON.StandardMaterial ("material" + index);
+               
+            }
+        
+            for (var index = 0; index < instanceCount - 1; index++) {
+                let instance = BABYLON.Mesh.CreateBox (("box" + index), 2, scene)
+                instance.position.x = 10 - Math.random() * 40;
+                
+                instance.position.z = 10 - Math.random() * 40;
+                instance.alwaysSelectAsActiveMesh = true;
+            }
+        
+        
+        var step = 0;
+        
+        var boxRotation = function() {
+        
+                box.rotate(BABYLON.Axis.Y, -step, BABYLON.Space.LOCAL);
+        
+            };
+        
+        var startBoxRotation = scene.onBeforeRenderObservable.add(boxRotation);
+        
+        
 
 
             return scene;
