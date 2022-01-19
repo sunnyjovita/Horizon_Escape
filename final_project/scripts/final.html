@@ -3,7 +3,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-        <title>Babylon.js sample code</title>
+        <title>Horizon Escape</title>
 
         <!-- Babylon.js -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.2/dat.gui.min.js"></script>
@@ -198,13 +198,13 @@ var createScene = function () {
   
     // var ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 0, height: 0}, scene);
         
-    // // scene 2 (game scene )
-    // var scene2 = new BABYLON.Scene(engine);
-	// var camera2 = new BABYLON.ArcRotateCamera("Camera2", -Math.PI / 2, Math.PI / 2, 5, BABYLON.Vector3.Zero(), scene2);
-	// camera2.attachControl(canvas, true);
+    // scene 3 (credit scene )
+    // var scene3 = new BABYLON.Scene(engine);
+	// var camera3 = new BABYLON.ArcRotateCamera("Camera2", -Math.PI / 2, Math.PI / 2, 5, BABYLON.Vector3.Zero(), scene3);
+	// camera3.attachControl(canvas, true);
 
-    // var light2 = new BABYLON.HemisphericLight("light2", new BABYLON.Vector3(1, 0.5, 0), scene2);
-    // light2.intensity = 0.8;
+    // var light3 = new BABYLON.HemisphericLight("light2", new BABYLON.Vector3(1, 0.5, 0), scene3);
+    // light3.intensity = 0.8;
 
     // var sphere2 = BABYLON.MeshBuilder.CreateSphere("sphere2", {diameter:1}, scene2);
     // sphere2.visibility = true;
@@ -414,6 +414,8 @@ var createScene = function () {
 				camera2.lockedTarget = player;
 				camera2.targetPosition = BABYLON.Vector3(camX, camY, camZ);
 
+                console.log(player.position.z);
+
 
                 // // FreeCam adjustment
 				// camera.attachControl(true);
@@ -461,7 +463,12 @@ var createScene = function () {
         button2.color = "aquamarine";
         // advancedTexture.addControl(button2);
     
-        UiPanel.addControl(button2);
+        // UiPanel.addControl(button2);
+        // button.onPointerUpObservable.add(function () {       
+        //     engine.runRenderLoop(function(){
+        //             scene2.render();
+        //         })                   
+        // });
     }
 
     createGUI(scene, showScene);
